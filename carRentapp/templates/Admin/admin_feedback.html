@@ -1,0 +1,46 @@
+{% extends 'Admin/admin_home.html' %}
+{% block content %}
+<style type="text/css">
+	th{
+		background-color: green;
+		color: white;
+	}
+</style>
+<section>
+        <div class="container">
+        <div class="text-center">
+        <h1>Feedback</h1>
+        <br>
+        </div>
+        </div>
+     </section>
+     <section class="section-background">
+     <div class="container">
+
+
+     	<table border="1" class="table">
+     		<tr>
+     			<th>Sl.No.</th>
+     			<th>User Type</th>
+     			<th>User Email</th>
+     			<th>Feedback</th>
+                <th></th>
+     		</tr>
+     		{% for x in var %}
+     		<tr>
+     			<td>{{forloop.counter}}</td>
+     			<td>{{x.user_id.user_type}}</td>
+     			<td>{{x.user_id.email}}</td>
+     			<td>{{x.feedback}}</td>
+                <td><a href="/admin_delete_feedback/?id={{x.id}}" class="btn btn-success">Remove</a></td>
+
+     		</tr>
+     		{% endfor %}
+     	</table>
+        
+
+
+
+     </div>
+     </section>
+{% endblock %}

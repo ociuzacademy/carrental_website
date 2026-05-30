@@ -1,0 +1,56 @@
+{% extends 'contact.html' %}
+{% block content %}
+ <section>
+          <div class="container">
+               <div class="text-center">
+                    <h1>Register Now</h1>
+
+                    <br>
+
+                   
+               </div>
+          </div>
+     </section>
+
+
+     <!-- CONTACT -->
+     <section id="contact">
+<div class="container">
+               <div class="row">
+
+                    <div class="col-md-6 col-sm-12">
+                         <form id="contact-form" action="/owner_register/" method="post" enctype="multipart/form-data">
+                         	{% csrf_token %}
+                              <div class="col-md-12 col-sm-12">
+                                   <label style="color: white;">Upload Your ID proof</label>
+                                   <input type="file" class="form-control"  name="img" required>
+                                   <input type="text" class="form-control" placeholder="Enter full name" name="name" required>
+                                   <textarea class="form-control" rows="6" placeholder="Address" name="address" required></textarea>
+
+                                    <input type="number" class="form-control" placeholder="Enter phone number" name="phone" required>
+                    
+                                   <input type="email" class="form-control" placeholder="Enter email address" name="email" required>
+
+                                    <input type="password" class="form-control" placeholder="Enter password" name="pswd" required>
+
+                                   
+                              </div>
+
+                              <div class="col-md-4 col-sm-12">
+                                   <input type="submit" class="form-control" name="send message" value="Register Now">
+                              </div>
+                         </form>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12">
+                         <div class="contact-image">
+                              <img src="/static/images/contact-1-600x400.jpg" class="img-responsive" alt="">
+                         </div>
+                    </div>
+
+               </div>
+          </div>
+      </section>
+
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'contact.html' %}
+{% block content %}
+ <section>
+          <div class="container">
+               <div class="text-center">
+                    <h1>Login Now</h1>
+
+                    <br>
+
+                    <!-- <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, alias.</p> -->
+               </div>
+          </div>
+     </section>
+
+
+     <!-- CONTACT -->
+     <section id="contact">
+<div class="container">
+               <div class="row">
+
+                    <div class="col-md-6 col-sm-12">
+                         <form id="contact-form" action="/login/" method="post">
+                              {%csrf_token %}
+                              <div class="col-md-12 col-sm-12">
+                                   
+                    
+                                   <input type="email" class="form-control" placeholder="Enter email address" name="email" required>
+                                   <input type="password" class="form-control" placeholder="Enter Your Password" name="pswd" required>
+
+                                   <!-- <textarea class="form-control" rows="6" placeholder="Tell us about your message" name="message" required></textarea> -->
+                              </div>
+
+                              <div class="col-md-4 col-sm-12">
+                                   <input type="submit" class="form-control" name="btn" value="Login">
+                              </div>
+                         </form>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12">
+                         <div class="contact-image">
+                              <img src="/static/images/contact-1-600x400.jpg" class="img-responsive" alt="">
+                         </div>
+                    </div>
+
+               </div>
+          </div>
+      </section>
+
+
+{% endblock %}

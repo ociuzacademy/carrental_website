@@ -1,0 +1,54 @@
+{% extends 'Owner/owner_home.html' %}
+{% block content %}
+<style type="text/css">
+	th{
+		background-color: green;
+		color: white;
+	}
+    div.gallery {
+  margin: 5px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 200px;
+}
+
+div.gallery:hover {
+  border: 1px solid #777;
+}
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+}
+</style>
+<section>
+        <div class="container">
+        <div class="text-center">
+        <h1>My Products</h1>
+        <br>
+        </div>
+        </div>
+     </section>
+     <section class="section-background">
+     <div class="container">
+
+         {% for x in var %}
+        <div class="gallery">
+    <img src="{{x.img.url}}" width="1000" height="400">
+  <div class="desc">{{x.name}}<br>Car Number:{{x.car_number}}<br>No.Of.Seats:{{x.seat}}<br>{{x.specification}}<br>Amount:{{x.price}}/-hour<br>
+    <a href="/owner_edit_product/?id={{x.id}}" class="btn btn-success">EDIT</a>
+    <a href="/owner_delete_product/?id={{x.id}}" class="btn btn-danger">DELETE</a>
+  </div>
+</div>
+ {% endfor %}
+
+
+
+     </div>
+     </section>
+{% endblock %}
