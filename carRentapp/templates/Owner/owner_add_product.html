@@ -1,51 +1,571 @@
 {% extends 'Owner/owner_home.html' %}
 {% block content %}
-<!-- <style type="text/css">
-	th{
-		background-color: green;
-		color: white;
-	}
-</style> -->
-<section>
-        <div class="container">
-        <div class="text-center">
-        <h1>Add Products For Rent</h1>
-        </div>
-        </div>
-     </section>
 
-     <section id="contact">
-<div class="container">
+<style>
+     .add-car-page {
+          padding: 35px 15px 50px;
+          background: #f4f7fb;
+          min-height: 100vh;
+          color: #1e293b;
+     }
+
+     .page-heading {
+          margin-bottom: 28px;
+     }
+
+     .page-heading h1 {
+          font-size: 28px;
+          font-weight: 700;
+          color: #172554;
+          margin-bottom: 6px;
+     }
+
+     .page-heading p {
+          color: #64748b;
+          font-size: 14px;
+          margin: 0;
+     }
+
+     .form-card {
+          background: #fff;
+          border: 1px solid #e2e8f0;
+          border-radius: 14px;
+          padding: 28px;
+          height: 100%;
+          box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+     }
+
+     .card-heading {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding-bottom: 18px;
+          margin-bottom: 22px;
+          border-bottom: 1px solid #edf0f5;
+     }
+
+     .heading-icon {
+          width: 42px;
+          height: 42px;
+          border-radius: 10px;
+          background: #eaf2ff;
+          color: #2563eb;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          font-weight: 700;
+          flex-shrink: 0;
+     }
+
+     .card-heading h3 {
+          font-size: 18px;
+          font-weight: 700;
+          margin: 0 0 4px;
+          color: #1e293b;
+     }
+
+     .card-heading p {
+          font-size: 12px;
+          color: #94a3b8;
+          margin: 0;
+     }
+
+     .form-label {
+          display: block;
+          font-size: 13px;
+          font-weight: 600;
+          color: #334155;
+          margin-bottom: 7px;
+     }
+
+     .form-control {
+          width: 100%;
+          height: 44px;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          padding: 9px 12px;
+          color: #1e293b;
+          background-color: #fff;
+          font-size: 13px;
+          box-shadow: none;
+          transition: border-color .2s, box-shadow .2s;
+     }
+
+     textarea.form-control {
+          height: auto;
+          resize: vertical;
+     }
+
+     .form-control:focus {
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, .12);
+          outline: none;
+     }
+
+     .form-group {
+          margin-bottom: 19px;
+     }
+
+     .section-label {
+          font-size: 12px;
+          font-weight: 700;
+          color: #64748b;
+          text-transform: uppercase;
+          letter-spacing: .7px;
+          margin: 22px 0 15px;
+     }
+
+     .price-box {
+          background: #f0fdf4;
+          border: 1px solid #bbf7d0;
+          border-radius: 12px;
+          padding: 20px;
+          margin-top: 8px;
+     }
+
+     .price-box label {
+          color: #166534;
+          font-weight: 700;
+     }
+
+     .price-input-wrap {
+          position: relative;
+     }
+
+     .currency-symbol {
+          position: absolute;
+          left: 13px;
+          top: 12px;
+          font-weight: 700;
+          color: #15803d;
+          z-index: 2;
+     }
+
+     .price-input {
+          padding-left: 32px !important;
+          height: 48px;
+          border-color: #86efac;
+          font-size: 18px;
+          font-weight: 700;
+          color: #166534;
+     }
+
+     .btn-predict {
+          width: 100%;
+          height: 46px;
+          border: 0;
+          border-radius: 8px;
+          background: #2563eb;
+          color: #fff;
+          font-size: 13px;
+          font-weight: 700;
+          transition: background .2s;
+     }
+
+     .btn-predict:hover {
+          background: #1d4ed8;
+          color: #fff;
+     }
+
+     .btn-predict:disabled {
+          opacity: .65;
+          cursor: not-allowed;
+     }
+
+     .btn-add {
+          width: 100%;
+          height: 48px;
+          background: #16a34a;
+          border: 0;
+          border-radius: 8px;
+          color: #fff;
+          font-weight: 700;
+          font-size: 14px;
+          margin-top: 18px;
+          transition: background .2s;
+     }
+
+     .btn-add:hover {
+          background: #15803d;
+          color: #fff;
+     }
+
+     .prediction-message {
+          font-size: 13px;
+          margin-top: 12px;
+          line-height: 1.5;
+     }
+
+     .help-text {
+          font-size: 11px;
+          color: #94a3b8;
+          margin-top: 5px;
+     }
+
+     .required-mark {
+          color: #ef4444;
+     }
+
+     @media (max-width: 767px) {
+          .add-car-page {
+               padding: 22px 10px 35px;
+          }
+
+          .form-card {
+               padding: 20px;
+               margin-bottom: 20px;
+          }
+
+          .page-heading h1 {
+               font-size: 23px;
+          }
+     }
+</style>
+
+<div class="add-car-page">
+     <div class="container">
+
+          <div class="page-heading">
+               <h1>Add Car for Rent</h1>
+               <p>Register your vehicle and use AI to estimate its rental price.</p>
+          </div>
+
+          <form id="contact-form" action="/owner_add_product/" method="post" enctype="multipart/form-data">
+
+               {% csrf_token %}
+
                <div class="row">
+
+                    <!-- LEFT COLUMN: VEHICLE INFORMATION -->
                     <div class="col-md-6 col-sm-12">
-                         <form id="contact-form" action="/owner_add_product/" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                              <div class="col-md-12 col-sm-12">
-                                   <label style="color: white;">Upload Product Images</label>
-                                   <input type="file" class="form-control"  name="img" required>
-                                   <input type="text" class="form-control" placeholder="Enter Product name" name="name" required>
-                                   <input type="text" class="form-control" placeholder="Enter car number" name="number" required>
-                                   <input type="text" class="form-control" placeholder="Enter number of seats" name="seat" required>  
-                                   <textarea class="form-control" rows="6" placeholder="specifications in detail.." name="specification" required></textarea>
+                         <div class="form-card">
 
-                                    <input type="number" class="form-control" placeholder="Enter Amount per Hour" name="price" required>
-                    
-                                   
+                              <div class="card-heading">
+                                   <div class="heading-icon">&#128663;</div>
+                                   <div>
+                                        <h3>Vehicle Information</h3>
+                                        <p>Enter the basic details of your vehicle.</p>
+                                   </div>
                               </div>
 
-                              <div class="col-md-4 col-sm-12">
-                                   <input type="submit" class="form-control" name="send message" value="ADD ">
+                              <div class="form-group">
+                                   <label class="form-label">
+                                        Car Image <span class="required-mark">*</span>
+                                   </label>
+                                   <input type="file" class="form-control" name="img" accept="image/*" required>
                               </div>
-                         </form>
+
+                              <div class="form-group">
+                                   <label class="form-label">
+                                        Car Name <span class="required-mark">*</span>
+                                   </label>
+                                   <input type="text" class="form-control" name="name" placeholder="e.g. Toyota Innova"
+                                        required>
+                              </div>
+
+                              <div class="row">
+                                   <div class="col-sm-6">
+                                        <div class="form-group">
+                                             <label class="form-label">
+                                                  Registration Number
+                                                  <span class="required-mark">*</span>
+                                             </label>
+                                             <input type="text" class="form-control" name="number"
+                                                  placeholder="KL 07 AB 1234" required>
+                                        </div>
+                                   </div>
+
+                                   <div class="col-sm-6">
+                                        <div class="form-group">
+                                             <label class="form-label">
+                                                  Number of Seats
+                                                  <span class="required-mark">*</span>
+                                             </label>
+                                             <input type="number" class="form-control" id="seat" name="seat" min="1"
+                                                  placeholder="e.g. 5" required>
+                                        </div>
+                                   </div>
+                              </div>
+
+                              <div class="form-group">
+                                   <label class="form-label">
+                                        Specifications
+                                        <span class="required-mark">*</span>
+                                   </label>
+                                   <textarea class="form-control" name="specification" rows="5"
+                                        placeholder="Enter vehicle features, AC, GPS, safety features, etc."
+                                        required></textarea>
+                              </div>
+
+                              <div class="section-label">Vehicle Classification</div>
+
+                              <div class="row">
+                                   <div class="col-sm-6">
+                                        <div class="form-group">
+                                             <label class="form-label">
+                                                  Brand <span class="required-mark">*</span>
+                                             </label>
+                                             <input type="text" class="form-control" name="brand"
+                                                  placeholder="e.g. Toyota" required>
+                                        </div>
+                                   </div>
+
+                                   <div class="col-sm-6">
+                                        <div class="form-group">
+                                             <label class="form-label">
+                                                  Model <span class="required-mark">*</span>
+                                             </label>
+                                             <input type="text" class="form-control" name="model_name"
+                                                  placeholder="e.g. Innova" required>
+                                        </div>
+                                   </div>
+                              </div>
+
+                              <div class="row">
+                                   <div class="col-sm-6">
+                                        <div class="form-group">
+                                             <label class="form-label">
+                                                  Manufacturing Year
+                                                  <span class="required-mark">*</span>
+                                             </label>
+                                             <input type="number" class="form-control" name="manufacturing_year"
+                                                  min="1900" max="2100" placeholder="e.g. 2022" required>
+                                        </div>
+                                   </div>
+
+                                   <div class="col-sm-6">
+                                        <div class="form-group">
+                                             <label class="form-label">
+                                                  Vehicle Type
+                                                  <span class="required-mark">*</span>
+                                             </label>
+                                             <select class="form-control" name="vehicle_type" required>
+                                                  <option value="">Select type</option>
+                                                  <option value="SUV">SUV</option>
+                                                  <option value="Sedan">Sedan</option>
+                                                  <option value="Hatchback">Hatchback</option>
+                                                  <option value="Luxury">Luxury</option>
+                                                  <option value="Van">Van</option>
+                                             </select>
+                                        </div>
+                                   </div>
+                              </div>
+
+                         </div>
                     </div>
 
+                    <!-- RIGHT COLUMN: AI PREDICTION -->
                     <div class="col-md-6 col-sm-12">
-                         <div class="contact-image">
-                              <img src="/static/images/contact-1-600x400.jpg" class="img-responsive" alt="">
+                         <div class="form-card">
+
+                              <div class="card-heading">
+                                   <div class="heading-icon">&#10024;</div>
+                                   <div>
+                                        <h3>AI Rental Price Prediction</h3>
+                                        <p>Estimate your vehicle's rental price.</p>
+                                   </div>
+                              </div>
+
+                              <div class="row">
+                                   <div class="col-sm-6">
+                                        <div class="form-group">
+                                             <label class="form-label">
+                                                  Fuel Type <span class="required-mark">*</span>
+                                             </label>
+                                             <select class="form-control" name="fuel_type" required>
+                                                  <option value="">Select fuel</option>
+                                                  <option value="Petrol">Petrol</option>
+                                                  <option value="Diesel">Diesel</option>
+                                                  <option value="Electric">Electric</option>
+                                                  <option value="Hybrid">Hybrid</option>
+                                                  <option value="CNG">CNG</option>
+                                             </select>
+                                        </div>
+                                   </div>
+
+                                   <div class="col-sm-6">
+                                        <div class="form-group">
+                                             <label class="form-label">
+                                                  Transmission
+                                                  <span class="required-mark">*</span>
+                                             </label>
+                                             <select class="form-control" name="transmission" required>
+                                                  <option value="">Select type</option>
+                                                  <option value="Manual">Manual</option>
+                                                  <option value="Automatic">Automatic</option>
+                                             </select>
+                                        </div>
+                                   </div>
+                              </div>
+
+                              <div class="row">
+                                   <div class="col-sm-6">
+                                        <div class="form-group">
+                                             <label class="form-label">
+                                                  Mileage (KM/L)
+                                                  <span class="required-mark">*</span>
+                                             </label>
+                                             <input type="number" class="form-control" name="mileage" min="0" step="0.1"
+                                                  placeholder="e.g. 18" required>
+                                        </div>
+                                   </div>
+
+                                   <div class="col-sm-6">
+                                        <div class="form-group">
+                                             <label class="form-label">
+                                                  Condition
+                                                  <span class="required-mark">*</span>
+                                             </label>
+                                             <select class="form-control" name="condition" required>
+                                                  <option value="">Select condition</option>
+                                                  <option value="Excellent">Excellent</option>
+                                                  <option value="Good">Good</option>
+                                                  <option value="Average">Average</option>
+                                                  <option value="Poor">Poor</option>
+                                             </select>
+                                        </div>
+                                   </div>
+                              </div>
+
+                              <div class="form-group">
+                                   <label class="form-label">
+                                        Location <span class="required-mark">*</span>
+                                   </label>
+                                   <input type="text" class="form-control" name="location" placeholder="e.g. Kochi"
+                                        required>
+                              </div>
+
+                              <div class="form-group">
+                                   <label class="form-label">
+                                        Rental Duration (Days)
+                                        <span class="required-mark">*</span>
+                                   </label>
+                                   <input type="number" class="form-control" name="rental_duration" min="1" value="1"
+                                        required>
+                              </div>
+
+                              <div class="price-box">
+                                   <label class="form-label">
+                                        Estimated Rental Price (Per Day)
+                                   </label>
+
+                                   <div class="price-input-wrap">
+                                        <span class="currency-symbol">₹</span>
+                                        <input type="number" class="form-control price-input" name="price" id="price"
+                                             min="1" step="0.01" placeholder="0.00" required>
+                                   </div>
+
+                                   <div id="predictionResult" class="prediction-message" role="status"
+                                        aria-live="polite"></div>
+
+                                   <div class="help-text">
+                                        You can review and edit the predicted price
+                                        before adding the vehicle.
+                                   </div>
+                              </div>
+
+                              <button type="button" id="predictPriceBtn" class="btn btn-predict"
+                                   style="margin-top:20px;">
+                                   &#10024; Predict Rental Price
+                              </button>
+
+                              <button type="submit" class="btn btn-add">
+                                   + Add Car for Rent
+                              </button>
+
                          </div>
                     </div>
 
                </div>
-          </div>
-      </section>
+          </form>
+     </div>
+</div>
+
+<script>
+     document.addEventListener("DOMContentLoaded", function () {
+          const form = document.getElementById("contact-form");
+          const predictButton = document.getElementById("predictPriceBtn");
+          const result = document.getElementById("predictionResult");
+          const priceInput = document.getElementById("price");
+
+          predictButton.addEventListener("click", async function () {
+               // Validate required prediction fields before sending.
+               const requiredNames = [
+                    "brand",
+                    "model_name",
+                    "manufacturing_year",
+                    "vehicle_type",
+                    "fuel_type",
+                    "transmission",
+                    "mileage",
+                    "condition",
+                    "location",
+                    "rental_duration"
+               ];
+
+               for (const name of requiredNames) {
+                    const field = form.elements.namedItem(name);
+
+                    if (!field || !field.value.trim() || !field.checkValidity()) {
+                         field?.reportValidity();
+                         return;
+                    }
+               }
+
+               result.textContent = "Predicting rental price...";
+               result.style.color = "#2563eb";
+               predictButton.disabled = true;
+               predictButton.textContent = "Predicting...";
+
+               try {
+                    const formData = new FormData(form);
+
+                    const response = await fetch(
+                         "{% url 'owner_predict_price' %}",
+                         {
+                              method: "POST",
+                              body: formData,
+                              headers: {
+                                   "X-Requested-With": "XMLHttpRequest"
+                              }
+                         }
+                    );
+
+                    const data = await response.json();
+
+                    if (!response.ok || !data.success) {
+                         throw new Error(
+                              data.error || "Unable to predict rental price."
+                         );
+                    }
+
+                    const predictedPrice = Number(data.predicted_price);
+
+                    if (!Number.isFinite(predictedPrice) || predictedPrice <= 0) {
+                         throw new Error("Invalid predicted price received.");
+                    }
+
+                    priceInput.value = predictedPrice.toFixed(2);
+
+                    result.textContent =
+                         "AI estimated price: ₹" +
+                         predictedPrice.toLocaleString("en-IN", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2
+                         }) + " per day";
+
+                    result.style.color = "#15803d";
+
+               } catch (error) {
+                    result.textContent = error.message;
+                    result.style.color = "#dc2626";
+               } finally {
+                    predictButton.disabled = false;
+                    predictButton.innerHTML = "&#10024; Predict Rental Price";
+               }
+          });
+     });
+</script>
+
 {% endblock %}

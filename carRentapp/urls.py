@@ -43,6 +43,7 @@ urlpatterns = [
     path('owner_view_request/',views.owner_view_request),
     path('owner_approve_request/',views.owner_approve_request),
     path('owner_reject_request/',views.owner_reject_request),
+    path('owner_predict_price/',views.owner_predict_price,name='owner_predict_price'),
 
     #Buyer
     path('buyer_home/',views.buyer_home),

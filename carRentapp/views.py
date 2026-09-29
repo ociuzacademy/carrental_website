@@ -248,6 +248,164 @@ def owner_reject_request(request):
 	ii=request.GET['id']
 	var=Tbl_booking.objects.all().filter(id=ii).update(status='rejected')
 	return HttpResponseRedirect('/owner_view_request/')
+
+
+import datetime
+import logging
+
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+
+from .services.price_prediction import predict_rental_price
+
+logger = logging.getLogger(__name__)
+
+
+@require_POST
+def owner_predict_price(request):
+    try:
+        # 1. Read form data
+        brand = request.POST.get("brand", "").strip()
+        model_name = request.POST.get("model_name", "").strip()
+        manufacturing_year = int(
+            request.POST.get("manufacturing_year", "")
+        )
+        vehicle_type = request.POST.get("vehicle_type", "").strip()
+        fuel_type = request.POST.get("fuel_type", "").strip()
+        transmission = request.POST.get("transmission", "").strip()
+
+        # HTML field name is "seat"
+        seats = int(request.POST.get("seat", ""))
+
+        mileage = float(request.POST.get("mileage", ""))
+        condition = request.POST.get("condition", "").strip()
+        location = request.POST.get("location", "").strip()
+        rental_duration = int(
+            request.POST.get("rental_duration", "")
+        )
+
+        # 2. Validate required text fields
+        required_fields = {
+            "brand": brand,
+            "model_name": model_name,
+            "vehicle_type": vehicle_type,
+            "fuel_type": fuel_type,
+            "transmission": transmission,
+            "condition": condition,
+            "location": location,
+        }
+
+        missing_fields = [
+            name for name, value in required_fields.items()
+            if not value
+        ]
+
+        if missing_fields:
+            return JsonResponse({
+                "success": False,
+                "error": "Missing required fields: "
+                         + ", ".join(missing_fields)
+            }, status=400)
+
+        # 3. Validate numerical fields
+        current_year = datetime.date.today().year
+        month = datetime.date.today().month
+
+        if not 1990 <= manufacturing_year <= current_year:
+            return JsonResponse({
+                "success": False,
+                "error": "Invalid manufacturing year."
+            }, status=400)
+
+        if not 1 <= seats <= 20:
+            return JsonResponse({
+                "success": False,
+                "error": "Seats must be between 1 and 20."
+            }, status=400)
+
+        if not 0 < mileage <= 200:
+            return JsonResponse({
+                "success": False,
+                "error": "Mileage must be greater than 0 and at most 200."
+            }, status=400)
+
+        if not 1 <= rental_duration <= 365:
+            return JsonResponse({
+                "success": False,
+                "error": "Rental duration must be between 1 and 365 days."
+            }, status=400)
+
+        # 4. Temporary demand and availability values
+        # Replace these with actual database calculations.
+        demand_score = 50
+        available_vehicles = 5
+
+        # 5. Generate AI/ML price prediction
+        try:
+            price = predict_rental_price(
+                brand=brand,
+                model_name=model_name,
+                manufacturing_year=manufacturing_year,
+                vehicle_type=vehicle_type,
+                fuel_type=fuel_type,
+                transmission=transmission,
+                seats=seats,
+                mileage=mileage,
+                condition=condition,
+                location=location,
+                rental_duration=rental_duration,
+                month=month,
+                demand_score=demand_score,
+                available_vehicles=available_vehicles,
+            )
+        except Exception:
+            logger.exception(
+                "ML prediction failed for brand=%s, model=%s",
+                brand, model_name
+            )
+            return JsonResponse({
+                "success": False,
+                "error": "The ML model failed to predict the rental price. "
+                         "Check the Django terminal for details."
+            }, status=500)
+
+        # 6. Validate model output
+        if not isinstance(price, (int, float)) or not (
+            0 < price < float("inf")
+        ):
+            logger.error("Invalid ML prediction returned: %r", price)
+            return JsonResponse({
+                "success": False,
+                "error": "The model returned an invalid rental price."
+            }, status=500)
+
+        # 7. Return successful response
+        return JsonResponse({
+            "success": True,
+            "predicted_price": round(float(price), 2),
+            "currency": "INR",
+            "period": "per day",
+            "message": "Rental price predicted successfully."
+        })
+
+    except (ValueError, TypeError, KeyError) as exc:
+        logger.warning(
+            "Invalid price prediction input: %s",
+            exc,
+            exc_info=True
+        )
+        return JsonResponse({
+            "success": False,
+            "error": "Invalid input: " + str(exc)
+        }, status=400)
+
+    except Exception:
+        logger.exception("Unexpected rental price prediction error")
+        return JsonResponse({
+            "success": False,
+            "error": "Price prediction is temporarily unavailable."
+        }, status=500)
+	
 #-----------------------Buyer-------------------------------
 def buyer_home(request):
 	return render(request,'Buyer/buyer_home.html')
